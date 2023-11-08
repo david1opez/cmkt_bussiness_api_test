@@ -1,4 +1,4 @@
-module campusmarket/api/businesses
+module campusmarket
 
 go 1.21.0
 
