@@ -26,7 +26,13 @@ func Connect(user string, password string, host string) *mongo.Client {
 
 	var result bson.M // Send a ping to confirm a successful connection
 
-	if err := client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Decode(&result); err != nil {
+	fmt.Println("Ran result bson.M")
+
+	err = client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Decode(&result)
+
+	fmt.Println(err)
+
+	if err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
@@ -37,7 +43,7 @@ func Connect(user string, password string, host string) *mongo.Client {
 }
 
 func Disconnect(client *mongo.Client) {
-	if err:= client.Disconnect(context.TODO()); err != nil {
+	if err := client.Disconnect(context.TODO()); err != nil {
 		panic(err)
 	}
 }
