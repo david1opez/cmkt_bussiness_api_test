@@ -37,6 +37,8 @@ func Connect(user string, password string, host string) *mongo.Client {
 		panic(err)
 	}
 
+	fmt.Println("Ran error handlinmg")
+
 	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
 
 	return client
