@@ -33,6 +33,7 @@ func Connect(user string, password string, host string) *mongo.Client {
 	fmt.Println("Ran result")
 
 	if err := client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Decode(&result); err != nil {
+		fmt.Println("/////")
 		fmt.Println(err)
 		panic(err)
 	}
