@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"campusmarket/mongo"
+	"campusmarket/models"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -16,5 +17,25 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	client := mongo.Connect(user, password, host)
 	defer mongo.Disconnect(client)
 
-	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+	coll := mongo.GetCollection(client, "businesses")
+
+	newB, err := models.NewBusiness(models.Business{
+		Name: "",
+		Title: "",
+		Verified: false,
+		Images: [3]string{"", "", ""},
+		SmallImages: [3]string{"", "", ""},
+		Rating: 0,
+		Description: "",
+		Location: "",
+		Schedule: "",
+	})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	mongo.InsertOne(coll, newB)
+
+	fmt.Fprintf(w, "<h1>Campus Market Business API</h1>")
 }
