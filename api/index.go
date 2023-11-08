@@ -1,5 +1,5 @@
 package handler
- 
+
 import (
 	"fmt"
 	"net/http"
@@ -7,7 +7,7 @@ import (
 
 	"campusmarket/mongo"
 )
- 
+
 func Handler(w http.ResponseWriter, r *http.Request) {
 	user := os.Getenv("MONGO_USER")
 	password := os.Getenv("MONGO_PASSWORD")
@@ -15,6 +15,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	client := mongo.Connect(user, password, host)
 	defer mongo.Disconnect(client)
+
+	fmt.Printf("asdfghjklkjhgfdsdfghjkjhgfds")
 
 	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
