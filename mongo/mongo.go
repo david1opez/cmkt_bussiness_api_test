@@ -18,16 +18,22 @@ func Connect(user string, password string, host string) *mongo.Client {
 	fmt.Println("Connecting to Mongo...")
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1) // Use the SetServerAPIOptions() method to set the Stable API version to 1
+	fmt.Println("Ran serverAPI")
 	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI).SetCompressors([]string{"snappy"})
+	fmt.Println("Ran opts")
 	client, err := mongo.Connect(context.TODO(), opts) // Create a new client and connect to the server
+	fmt.Println("Ran client, err")
 
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 
 	var result bson.M // Send a ping to confirm a successful connection
+	fmt.Println("Ran result")
 
 	if err := client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Decode(&result); err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 
