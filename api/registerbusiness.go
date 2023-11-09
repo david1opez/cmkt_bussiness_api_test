@@ -1,16 +1,29 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 
-	"campusmarket/mongo"
 	"campusmarket/models"
+	"campusmarket/mongo"
 )
 
 func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
+		// Get Request Data
+		decoder := json.NewDecoder(r.Body)
+		var reqBody models.Business
+
+		err := decoder.Decode(&reqBody)
+
+		if err != nil {
+			panic(err)
+		}
+
+		newBusiness, err := models.NewBusiness(reqBody)
+		
 		user := os.Getenv("MONGO_USER")
 		password := os.Getenv("MONGO_PASSWORD")
 		host := os.Getenv("MONGO_HOST")
@@ -20,17 +33,7 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 
 		coll := mongo.GetCollection(client, "businesses")
 
-		newB, err := models.NewBusiness(models.Business{
-			Name: "",
-			Title: "",
-			Verified: false,
-			Images: [3]string{"", "", ""},
-			SmallImages: [3]string{"", "", ""},
-			Rating: 0,
-			Description: "",
-			Location: "",
-			Schedule: "",
-		})
+		newB, err := models.NewBusiness(*newBusiness)
 
 		if err != nil {
 			panic(err.Error())
