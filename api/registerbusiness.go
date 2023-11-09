@@ -37,8 +37,7 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		}
 
 		mongo.InsertOne(coll, newB)
-	}
-	else if r.Method = "GET" {
+	} else if r.Method = "GET" {
 		fmt.Fprintf(w, "<h1>Register Business</h1>")
 	}
 }
