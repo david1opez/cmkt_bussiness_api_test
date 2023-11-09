@@ -10,7 +10,7 @@ import (
 )
 
 func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
-	if r.Method = "POST" {
+	if r.Method == "POST" {
 		user := os.Getenv("MONGO_USER")
 		password := os.Getenv("MONGO_PASSWORD")
 		host := os.Getenv("MONGO_HOST")
@@ -37,7 +37,7 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		}
 
 		mongo.InsertOne(coll, newB)
-	} else if r.Method = "GET" {
+	} else if r.Method == "GET" {
 		fmt.Fprintf(w, "<h1>Register Business</h1>")
 	}
 }
