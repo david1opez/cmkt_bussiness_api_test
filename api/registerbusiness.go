@@ -10,30 +10,35 @@ import (
 )
 
 func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
-	user := os.Getenv("MONGO_USER")
-	password := os.Getenv("MONGO_PASSWORD")
-	host := os.Getenv("MONGO_HOST")
+	if r.Method = "POST" {
+		user := os.Getenv("MONGO_USER")
+		password := os.Getenv("MONGO_PASSWORD")
+		host := os.Getenv("MONGO_HOST")
 
-	client := mongo.Connect(user, password, host)
-	defer mongo.Disconnect(client)
+		client := mongo.Connect(user, password, host)
+		defer mongo.Disconnect(client)
 
-	coll := mongo.GetCollection(client, "businesses")
+		coll := mongo.GetCollection(client, "businesses")
 
-	newB, err := models.NewBusiness(models.Business{
-		Name: "",
-		Title: "",
-		Verified: false,
-		Images: [3]string{"", "", ""},
-		SmallImages: [3]string{"", "", ""},
-		Rating: 0,
-		Description: "",
-		Location: "",
-		Schedule: "",
-	})
+		newB, err := models.NewBusiness(models.Business{
+			Name: "",
+			Title: "",
+			Verified: false,
+			Images: [3]string{"", "", ""},
+			SmallImages: [3]string{"", "", ""},
+			Rating: 0,
+			Description: "",
+			Location: "",
+			Schedule: "",
+		})
 
-	if err != nil {
-		panic(err.Error())
+		if err != nil {
+			panic(err.Error())
+		}
+
+		mongo.InsertOne(coll, newB)
 	}
-
-	mongo.InsertOne(coll, newB)
+	else if r.Method = "GET" {
+		fmt.Fprintf(w, "<h1>Register Business</h1>")
+	}
 }
