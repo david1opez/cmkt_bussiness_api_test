@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"campusmarket/models"
 	"campusmarket/mongo"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -30,6 +31,15 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Validate Data
+		validData, err := models.ValidateData(reqBody.Field, reqBody.Value)
+
+		if err != nil {
+			panic(err)
+		}
+		
+		if !validData {
+			fmt.Println("Invalid Data")
+		}
 
 		// Connect to Mongo
 		user := os.Getenv("MONGO_USER")

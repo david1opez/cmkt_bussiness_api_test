@@ -50,3 +50,7 @@ func NewBusiness(business Business) (*Business, error) {
 
 	return &business, nil
 }
+
+func ValidateData(field string, value any) (bool, error) {
+	return true, nil
+}
