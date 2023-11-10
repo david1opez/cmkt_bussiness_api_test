@@ -74,6 +74,8 @@ func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
 		panic(err)
 	}
 
+	fmt.Printf("objectId: %v\n", objectId)
+
 	result, err := collection.UpdateByID(context.TODO(), objectId, update)
 
 	if err != nil {
