@@ -3,25 +3,28 @@ package models
 import (
 	"fmt"
 	"reflect"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Business struct {
-	Name           string      `bson:"name,omitempty"`
-	Title          string      `bson:"title,omitempty"`
-	Verified       bool        `bson:"verified,omitempty"`
-	Images         [3]string   `bson:"images,omitempty"`
-	SmallImages    [3]string   `bson:"smallImages,omitempty"`
-	Rating         float64     `bson:"rating,omitempty"`
-	Description    string      `bson:"description,omitempty"`
-	Location       interface{} `bson:"location,omitempty"`
-	Schedule       interface{} `bson:"schedule,omitempty"`
-	Active         bool        `bson:"active,omitempty"`
-	Category       string      `bson:"category,omitempty"`
-	OffersDelivery bool        `bson:"offersDelivery,omitempty"`
-	DeliveryFee    float64     `bson:"deliveryFee,omitempty"`
-	AcceptsCard    bool        `bson:"acceptsCard,omitempty"`
-	AcceptsCash    bool        `bson:"acceptsCash,omitempty"`
-	SchoolCode     string      `bson:"schoolCode,omitempty"`
+	_id            primitive.ObjectID	`bson:"_id,omitempty"`
+	Name           string      			`bson:"name,omitempty"`
+	Title          string      			`bson:"title,omitempty"`
+	Verified       bool        			`bson:"verified,omitempty"`
+	Images         [3]string   			`bson:"images,omitempty"`
+	SmallImages    [3]string   			`bson:"smallImages,omitempty"`
+	Rating         float64     			`bson:"rating,omitempty"`
+	Description    string      			`bson:"description,omitempty"`
+	Location       interface{} 			`bson:"location,omitempty"`
+	Schedule       interface{} 			`bson:"schedule,omitempty"`
+	Active         bool        			`bson:"active,omitempty"`
+	Category       string      			`bson:"category,omitempty"`
+	OffersDelivery bool        			`bson:"offersDelivery,omitempty"`
+	DeliveryFee    float64     			`bson:"deliveryFee,omitempty"`
+	AcceptsCard    bool        			`bson:"acceptsCard,omitempty"`
+	AcceptsCash    bool        			`bson:"acceptsCash,omitempty"`
+	SchoolCode     string      			`bson:"schoolCode,omitempty"`
 }
 
 func NewBusiness(business Business) (*Business, error) {
