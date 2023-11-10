@@ -70,9 +70,15 @@ func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
 	result, err := collection.UpdateByID(context.TODO(), id, update)
 
 	if err != nil {
+		fmt.Printf("err: %v\n", err)
 		panic(err)
+	} else {
+		fmt.Println("No error")
 	}
 
 	if result != nil {
+		fmt.Printf("result: %v\n", result)
+	} else {
+		fmt.Println("No Result")
 	}
 }
