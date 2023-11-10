@@ -79,7 +79,7 @@ func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
 	}
 
 	if result != nil {
-		fmt.Printf("result: %v\n", result)
+		fmt.Printf("UpsertedID: %v\n", result.UpsertedID)
 	} else {
 		fmt.Println("No Result")
 	}
