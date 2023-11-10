@@ -34,8 +34,6 @@ func Connect(user string, password string, host string) *mongo.Client {
 		panic(err)
 	}
 
-	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
-
 	return client
 }
 
@@ -70,16 +68,14 @@ func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
 	objectId, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		fmt.Printf("err: %v\n", err)
+		fmt.Println(err)
 		panic(err)
 	}
-
-	fmt.Printf("objectId: %v\n", objectId)
 
 	result, err := collection.UpdateByID(context.TODO(), objectId, update)
 
 	if err != nil {
-		fmt.Printf("err: %v\n", err)
+		fmt.Println(err)
 		panic(err)
 	} else {
 		fmt.Println("No error")
