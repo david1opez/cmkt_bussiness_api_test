@@ -12,7 +12,7 @@ import (
 )
 
 func Connect(user string, password string, host string) *mongo.Client {
-	const protocol = "mongodb://"
+	const protocol = "mongodb+srv://"
 
 	uri := protocol + user + ":" + password + host
 
