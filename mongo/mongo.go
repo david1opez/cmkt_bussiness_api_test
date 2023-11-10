@@ -64,13 +64,10 @@ func InsertOne(collection *mongo.Collection, document interface{}) {
 	}
 }
 
-func UpdateOne(collection *mongo.Collection, id string, data primitive.D) {
-	objectId, _ := primitive.ObjectIDFromHex(id)
-
-	filter := bson.D{{Key: "_id", Value: objectId}}
+func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
 	update := bson.D{{Key: "$set", Value: bson.D{}}}
 
-	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	result, err := collection.UpdateByID(context.TODO(), id, update)
 
 	if err != nil {
 		panic(err)

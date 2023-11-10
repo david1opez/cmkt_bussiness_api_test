@@ -42,7 +42,7 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		// Update Business Info
 		coll := mongo.GetCollection(client, "businesses")
 		
-		mongo.UpdateOne(coll, reqBody.BusinessId, bson.D{{Key: reqBody.Field, Value: reqBody.Value}})
+		mongo.UpdateById(coll, reqBody.BusinessId, bson.D{{Key: reqBody.Field, Value: reqBody.Value}})
 	} else if r.Method == "GET" {
 		fmt.Fprintf(w, "<h1>Update Business</h1>")
 	}
