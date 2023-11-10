@@ -6,12 +6,13 @@ import (
 	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Connect(user string, password string, host string) *mongo.Client {
-	const protocol = "mongodb+srv://"
+	const protocol = "mongodb://"
 
 	uri := protocol + user + ":" + password + host
 
@@ -60,5 +61,21 @@ func InsertOne(collection *mongo.Collection, document interface{}) {
 
 	if result != nil {
 		fmt.Printf("result.InsertedID: %v\n", result.InsertedID)
+	}
+}
+
+func UpdateOne(collection *mongo.Collection, id string, data primitive.D) {
+	objectId, _ := primitive.ObjectIDFromHex(id)
+
+	filter := bson.D{{Key: "_id", Value: objectId}}
+	update := bson.D{{Key: "$set", Value: bson.D{}}}
+
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if result != nil {
 	}
 }
