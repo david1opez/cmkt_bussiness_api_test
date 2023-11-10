@@ -27,6 +27,8 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		err := decoder.Decode(&reqBody)
 
 		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Println(err)
 			panic(err)
 		}
 
@@ -34,11 +36,15 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		validData, err := models.ValidateData(reqBody.Field, reqBody.Value)
 
 		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Println(err)
 			panic(err)
 		}
 		
 		if !validData {
+			w.WriteHeader(http.StatusBadRequest)
 			fmt.Println("Invalid Data")
+			panic(err)
 		}
 
 		// Connect to Mongo

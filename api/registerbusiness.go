@@ -19,6 +19,8 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		err := decoder.Decode(&reqBody)
 
 		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Println(err)
 			panic(err)
 		}
 
@@ -39,7 +41,9 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		newB, err := models.NewBusiness(*newBusiness)
 
 		if err != nil {
-			panic(err.Error())
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Println(err)
+			panic(err)
 		}
 
 		mongo.InsertOne(coll, newB)
