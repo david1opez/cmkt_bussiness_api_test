@@ -22,8 +22,10 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		// Validate Data
 		newBusiness, err := models.NewBusiness(reqBody)
 		
+		// Connect to Mongo
 		user := os.Getenv("MONGO_USER")
 		password := os.Getenv("MONGO_PASSWORD")
 		host := os.Getenv("MONGO_HOST")
@@ -31,6 +33,7 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		client := mongo.Connect(user, password, host)
 		defer mongo.Disconnect(client)
 
+		//Insert Data
 		coll := mongo.GetCollection(client, "businesses")
 
 		newB, err := models.NewBusiness(*newBusiness)
