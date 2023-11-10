@@ -14,7 +14,7 @@ import (
 type UpdateBusinessPayload struct {
 	BusinessId  string	`bson:"businessId,omitempty"`
 	Field		string	`bson:"field,omitempty"`
-	Value		any	`bson:"value,omitempty"`
+	Value		any		`bson:"value,omitempty"`
 }
 
 func UpdateBusiness(w http.ResponseWriter, r *http.Request) {

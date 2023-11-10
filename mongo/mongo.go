@@ -65,7 +65,7 @@ func InsertOne(collection *mongo.Collection, document interface{}) {
 }
 
 func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
-	update := bson.D{{Key: "$set", Value: bson.D{}}}
+	update := bson.D{{Key: "$set", Value: data}}
 
 	objectId, err := primitive.ObjectIDFromHex(id)
 
