@@ -16,7 +16,7 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
 		w.WriteHeader(http.StatusUnauthorized)
 	}
-	
+
 	if r.Method == "GET" {
 		// Get Request Data
 		decoder := json.NewDecoder(r.Body)
@@ -29,6 +29,8 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			panic(err)
 		}
+
+		fmt.Fprintf(w, "<h1>Get Previews</h1>")
 
 		// Validate Data
 
