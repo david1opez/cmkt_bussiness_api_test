@@ -1,9 +1,10 @@
 package middleware
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"net/http"
 	"os"
-	"crypto/sha256"
 )
 
 func Authorize(auth string) int {
@@ -13,6 +14,9 @@ func Authorize(auth string) int {
 	key := os.Getenv("MAGIC_WORD")
 	keyE := sha256.New()
 	keyE.Write([]byte(key))
+
+	fmt.Println(keyE.Sum(nil))
+	fmt.Println(authE.Sum(nil))
 
 	if authE != keyE {
 		return http.StatusUnauthorized
