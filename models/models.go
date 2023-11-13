@@ -12,8 +12,6 @@ type Business struct {
 	Name           string      			`bson:"name,omitempty"`
 	Title          string      			`bson:"title,omitempty"`
 	Verified       bool        			`bson:"verified,omitempty"`
-	Images         [3]string   			`bson:"images,omitempty"`
-	SmallImages    [3]string   			`bson:"smallImages,omitempty"`
 	Rating         float64     			`bson:"rating,omitempty"`
 	Description    string      			`bson:"description,omitempty"`
 	Location       interface{} 			`bson:"location,omitempty"`
