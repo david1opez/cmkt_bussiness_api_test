@@ -7,7 +7,7 @@ import (
 )
 
 type GetPreviewsRequest struct {
-	Page int32 `bson:"page,omitempty"`
+	Page int `bson:"page,omitempty"`
 }
 
 func GetPreviews(w http.ResponseWriter, r *http.Request) {
