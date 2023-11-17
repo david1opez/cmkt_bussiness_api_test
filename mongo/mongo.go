@@ -9,6 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"campusmarket/models"
 )
 
 func Connect(user string, password string, host string) *mongo.Client {
@@ -87,3 +89,29 @@ func UpdateById(collection *mongo.Collection, id string, data primitive.D) {
 		fmt.Println("No Result")
 	}
 }
+
+func PaginatedFind(collection *mongo.Collection, limit int, page int,) ([]models.Business, error) {
+	result := make([]models.Business, 0)
+ 
+	l := int64(limit)
+	skip := int64(page * limit - limit)
+	fOpt := options.FindOptions{Limit: &l, Skip: &skip}
+
+	curr, err := collection.Find(context.TODO(), bson.D{}, &fOpt)
+
+	if err != nil {
+	   return result, err
+	}
+ 
+	for curr.Next(context.TODO()) {
+	   var el models.Business
+
+	   if err := curr.Decode(&el); err != nil {
+		  fmt.Println(err)
+	   }
+ 
+	   result = append(result, el)
+	}
+ 
+	return result, nil
+ }
