@@ -3,6 +3,8 @@ package handler
 import (
 	"fmt"
 	"net/http"
+
+	"campusmarket/middleware"
 )
 
 type GetPreviewsRequest struct {
