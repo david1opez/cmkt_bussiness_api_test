@@ -8,17 +8,22 @@ import (
 
 	"campusmarket/models"
 	"campusmarket/mongo"
+	"campusmarket/middleware"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 type UpdateBusinessPayload struct {
-	BusinessId  string	`bson:"businessId,omitempty"`
+	Id  string	`bson:"businessId,omitempty"`
 	Field		string	`bson:"field,omitempty"`
 	Value		any		`bson:"value,omitempty"`
 }
 
 func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
+	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
+		w.WriteHeader(http.StatusUnauthorized)
+	}
+	
 	if r.Method == "POST" {
 		// Get Request Data
 		decoder := json.NewDecoder(r.Body)
@@ -58,8 +63,6 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		// Update Business Info
 		coll := mongo.GetCollection(client, "businesses")
 		
-		mongo.UpdateById(coll, reqBody.BusinessId, bson.D{{Key: reqBody.Field, Value: reqBody.Value}})
-	} else if r.Method == "GET" {
-		fmt.Fprintf(w, "<h1>Update Business</h1>")
+		mongo.UpdateById(coll, reqBody.Id, bson.D{{Key: reqBody.Field, Value: reqBody.Value}})
 	}
 }
