@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
+	"os"
 
 	"campusmarket/middleware"
 	"campusmarket/mongo"
@@ -15,15 +17,20 @@ type GetPreviewsRequest struct {
 
 func GetPreviews(w http.ResponseWriter, r *http.Request) {
 	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
-		w.WriteHeader(http.StatusUnauthorized)
-		panic("Unauthorized")
+		http.Error(w, "Unauthorized Request", http.StatusUnauthorized)
 	}
 
 	if r.Method == "GET" {
 		// Get Request Query Data
-		page := r.URL.Query().Get("page")
+		pageQuery := r.URL.Query().Get("page")
 
 		// Validate Data
+		page, err := strconv.Atoi(pageQuery)
+
+		if err != nil {
+			http.Error(w, "Invalid number provided", http.StatusBadRequest)
+			return
+		}
 
 		// Connect to Mongo
 		user := os.Getenv("MONGO_USER")
