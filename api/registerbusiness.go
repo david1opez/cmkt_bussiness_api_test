@@ -13,8 +13,8 @@ import (
 
 func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
-		w.WriteHeader(http.StatusUnauthorized)
-		panic("Unauthorized")
+		http.Error(w, "Unauthorized Request", http.StatusUnauthorized)
+		return
 	}
 
 	if r.Method == "POST" {
@@ -25,9 +25,9 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		err := decoder.Decode(&reqBody)
 
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
+			http.Error(w, "Failed To Decode Request Body", http.StatusBadRequest)
 			fmt.Println(err)
-			panic(err)
+			return
 		}
 
 		// Validate Data
@@ -47,9 +47,9 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		newB, err := models.NewBusiness(*newBusiness)
 
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
+			http.Error(w, "Failed To Create Business Object", http.StatusBadRequest)
 			fmt.Println(err)
-			panic(err)
+			return
 		}
 
 		mongo.InsertOne(coll, newB)

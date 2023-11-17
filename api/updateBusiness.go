@@ -21,8 +21,8 @@ type UpdateBusinessPayload struct {
 
 func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
-		w.WriteHeader(http.StatusUnauthorized)
-		panic("Unauthorized")
+		http.Error(w, "Unauthorized Request", http.StatusUnauthorized)
+		return
 	}
 	
 	if r.Method == "POST" {
@@ -42,15 +42,15 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		validData, err := models.ValidateData(reqBody.Field, reqBody.Value)
 
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
+			http.Error(w, "Error Validating Data", http.StatusBadRequest)
 			fmt.Println(err)
-			panic(err)
+			return
 		}
 		
 		if !validData {
-			w.WriteHeader(http.StatusBadRequest)
-			fmt.Println("Invalid Data")
-			panic(err)
+			http.Error(w, "Invalid Data", http.StatusBadRequest)
+			fmt.Println(err)
+			return
 		}
 
 		// Connect to Mongo
