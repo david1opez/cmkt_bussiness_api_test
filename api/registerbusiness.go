@@ -6,11 +6,16 @@ import (
 	"net/http"
 	"os"
 
+	"campusmarket/middleware"
 	"campusmarket/models"
 	"campusmarket/mongo"
 )
 
 func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
+	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
+		w.WriteHeader(http.StatusUnauthorized)
+	}
+
 	if r.Method == "POST" {
 		// Get Request Data
 		decoder := json.NewDecoder(r.Body)
@@ -47,7 +52,5 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		}
 
 		mongo.InsertOne(coll, newB)
-	} else if r.Method == "GET" {
-		fmt.Fprintf(w, "<h1>Register Business</h1>")
 	}
 }
