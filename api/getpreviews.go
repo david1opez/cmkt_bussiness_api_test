@@ -18,6 +18,7 @@ type GetPreviewsRequest struct {
 func GetPreviews(w http.ResponseWriter, r *http.Request) {
 	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
 		http.Error(w, "Unauthorized Request", http.StatusUnauthorized)
+		return
 	}
 
 	if r.Method == "GET" {
@@ -43,7 +44,12 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 		//Get Previews
 		coll := mongo.GetCollection(client, "businesses")
 
-		results := mongo.PaginatedFind(coll, 7, page)
+		results, err := mongo.PaginatedFind(coll, 7, page)
+
+		if err != nil {
+			http.Error(w, "Error on PaginatedFind", http.StatusBadRequest)
+			return
+		}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(results)
