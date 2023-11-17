@@ -21,12 +21,24 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 		// Get Request Query Data
 		page := r.URL.Query().Get("page")
 
-		fmt.Println(page)
-
-		fmt.Fprintf(w, "<h1>Get Previews</h1>")
-
 		// Validate Data
 
-		// Get Previews
+		// Connect to Mongo
+		user := os.Getenv("MONGO_USER")
+		password := os.Getenv("MONGO_PASSWORD")
+		host := os.Getenv("MONGO_HOST")
+
+		client := mongo.Connect(user, password, host)
+		defer mongo.Disconnect(client)
+
+		//Get Previews
+		coll := mongo.GetCollection(client, "businesses")
+
+		results := mongo.PaginatedFind(coll, 7, page)
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(results)
+
+		fmt.Fprintf(w, "<h1>Get Previews</h1>")
 	}
 }
