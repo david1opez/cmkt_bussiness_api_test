@@ -14,6 +14,7 @@ import (
 func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
 		w.WriteHeader(http.StatusUnauthorized)
+		panic("Unauthorized")
 	}
 
 	if r.Method == "POST" {
