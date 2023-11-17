@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -11,22 +10,15 @@ type GetPreviewsRequest struct {
 }
 
 func GetPreviews(w http.ResponseWriter, r *http.Request) {
-	// if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
-	// 	w.WriteHeader(http.StatusUnauthorized)
-	// }
+	if middleware.Authorize(r.Header.Get("X-CMKT-Authorization")) == http.StatusUnauthorized {
+		w.WriteHeader(http.StatusUnauthorized)
+	}
 
 	if r.Method == "GET" {
-		// Get Request Data
-		decoder := json.NewDecoder(r.Body)
-		var reqBody GetPreviewsRequest
+		// Get Request Query Data
+		page := r.URL.Query().Get("page")
 
-		err := decoder.Decode(&reqBody)
-
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			fmt.Println(err)
-			panic(err)
-		}
+		fmt.Println(page)
 
 		fmt.Fprintf(w, "<h1>Get Previews</h1>")
 
