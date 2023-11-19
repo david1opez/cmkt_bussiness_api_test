@@ -115,3 +115,18 @@ func PaginatedFind(collection *mongo.Collection, limit int, page int,) ([]models
  
 	return result, nil
  }
+
+func FindOne(collection *mongo.Collection, id string) (models.Business, error) {
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	filter := bson.D{{Key: "_id", Value: objectId}}
+
+	var result models.Business
+
+	err = collection.FindOne(context.TODO(), filter).Decode(&result)
+
+	return result, err
+}
+
+var DocumentNotFoundError = mongo.ErrNoDocuments
+ 
