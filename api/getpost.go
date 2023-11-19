@@ -33,11 +33,11 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			if err == mongo.DocumentNotFoundError {
-				errorMessage := "Document Not Found: " + err.Error()
+				errorMessage := "Document Not Found: '" + err.Error() + "'"
 				http.Error(w, errorMessage, http.StatusNotFound)
 				return
 			} else {
-				errorMessage := "Error on PaginatedFind: " + err.Error()
+				errorMessage := "Error on PaginatedFind: '" + err.Error() + "'"
 				http.Error(w, errorMessage, http.StatusInternalServerError)
 				return
 			}

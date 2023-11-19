@@ -28,7 +28,7 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 		page, err := strconv.Atoi(pageQuery)
 
 		if err != nil {
-			errorMessage := "Invalid number provided: " + err.Error()
+			errorMessage := "Invalid number provided: '" + err.Error() + "'"
 			http.Error(w, errorMessage, http.StatusBadRequest)
 			return
 		}
@@ -47,7 +47,7 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 		results, err := mongo.PaginatedFind(coll, 7, page)
 
 		if err != nil {
-			errorMessage := "Error on PaginatedFind: " + err.Error()
+			errorMessage := "Error on PaginatedFind: '" + err.Error() + "'"
 			http.Error(w, errorMessage, http.StatusInternalServerError)
 			return
 		}
