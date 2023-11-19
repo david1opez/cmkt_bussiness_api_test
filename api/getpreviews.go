@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"os"
@@ -29,7 +28,8 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 		page, err := strconv.Atoi(pageQuery)
 
 		if err != nil {
-			http.Error(w, "Invalid number provided", http.StatusBadRequest)
+			errorMessage := "Invalid number provided: " + err.Error()
+			http.Error(w, errorMessage, http.StatusBadRequest)
 			return
 		}
 
@@ -47,13 +47,12 @@ func GetPreviews(w http.ResponseWriter, r *http.Request) {
 		results, err := mongo.PaginatedFind(coll, 7, page)
 
 		if err != nil {
-			http.Error(w, "Error on PaginatedFind", http.StatusBadRequest)
+			errorMessage := "Error on PaginatedFind: " + err.Error()
+			http.Error(w, errorMessage, http.StatusInternalServerError)
 			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(results)
-
-		fmt.Fprintf(w, "<h1>Get Previews</h1>")
 	}
 }

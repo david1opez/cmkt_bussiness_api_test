@@ -42,13 +42,17 @@ func UpdateBusiness(w http.ResponseWriter, r *http.Request) {
 		validData, err := models.ValidateData(reqBody.Field, reqBody.Value)
 
 		if err != nil {
-			http.Error(w, "Error Validating Data", http.StatusBadRequest)
+			errorMessage := "Error Validating Data: " + err.Error()
+			http.Error(w, errorMessage, http.StatusInternalServerError)
 			fmt.Println(err)
 			return
 		}
+
+		// How can i print "Error Validating Data: " and the error message in golang?
 		
 		if !validData {
-			http.Error(w, "Invalid Data", http.StatusBadRequest)
+			errorMessage := "Invalid Data: " + err.Error()
+			http.Error(w, errorMessage, http.StatusBadRequest)
 			fmt.Println(err)
 			return
 		}

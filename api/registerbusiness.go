@@ -25,7 +25,8 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		err := decoder.Decode(&reqBody)
 
 		if err != nil {
-			http.Error(w, "Failed To Decode Request Body", http.StatusBadRequest)
+			errorMessage := "Failed To Decode Request Body: " + err.Error()
+			http.Error(w, errorMessage, http.StatusBadRequest)
 			fmt.Println(err)
 			return
 		}
@@ -47,7 +48,8 @@ func RegisterBusiness(w http.ResponseWriter, r *http.Request) {
 		newB, err := models.NewBusiness(*newBusiness)
 
 		if err != nil {
-			http.Error(w, "Failed To Create Business Object", http.StatusBadRequest)
+			errorMessage := "Failed To Create Business Object: " + err.Error()
+			http.Error(w, errorMessage, http.StatusInternalServerError)
 			fmt.Println(err)
 			return
 		}
